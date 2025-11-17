@@ -1,4 +1,4 @@
-desiredCities,firstName,lastName,email,homeCity,id
+# desiredCities,firstName,lastName,email,homeCity,id
 Los Angeles;Chicago;Houston,Alice,Smith,alice.smith@example.com,New York,1
 Chicago;Houston;Phoenix,Bob,Johnson,bob.johnson@example.com,Los Angeles,2
 Houston;Phoenix;San Diego,Carol,Williams,carol.williams@example.com,Chicago,3
