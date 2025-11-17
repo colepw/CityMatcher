@@ -5,9 +5,9 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <unordered_set>
+#include <unordered_map>
 
-using Graph = std::vector<User*>;
+using Graph = std::unordered_map<int, User*>;
 
 bool BFS(const Graph& g);
 

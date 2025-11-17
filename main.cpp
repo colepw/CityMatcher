@@ -50,6 +50,8 @@ int main() {
 
     file.close();
 
+    
+
     for (User* p : users) delete p;
 
     return 0;
