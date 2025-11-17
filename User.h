@@ -1,7 +1,6 @@
 #ifndef USER_H
 #define USER_H
 
-#include <iostream>
 #include <string>
 #include <unordered_set>
 
