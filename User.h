@@ -14,7 +14,7 @@ class User {
         User();
         User(const std::unordered_set<std::string>& desiredCities, const std::string& firstName, const std::string& lastName, const std::string& email, const std::string& homeCity, const int& id);
 
-        std::unordered_set<std::string> getDesiredCities() const;
+        const std::unordered_set<std::string>& getDesiredCities() const;
         std::string getFirstName() const;
         std::string getLastName() const;
         std::string getName() const;
@@ -28,15 +28,18 @@ class User {
         void setHomeCity(const std::string& city);
         void setId(const int& id);
 
-        int getUserMatch(const int& id) const; // Returns the id of the matched User for User of input id number
-        std::pair<unsigned char, std::string> isMatched(const int& id) const; // Returns whether of not the User of input id has been matched
+        std::pair<User*, std::string> getUserMatch() const; // Returns pair of pointer to User object and the city of the matched User
+        unsigned char isMatched() const; // Returns whether of not the User has been matched
 
+        static void buildUserGraph(const std::vector<User*>& users);
+        static void destroyUserGraph();
+
+        static Graph* userGraph; // Keeps track of mapping Users to each other
         static int totalDesiredCities; // Keeps track of total number of cities being looked for across all Users
-        static Graph userGraph; // Keeps track of mapping Users to each other
 
     protected:
         std::unordered_set<std::string> desiredCities_;
-        std::pair<int, std::string> matchedCity_;
+        std::pair<User*, std::string> matchedCity_;
         std::string firstName_;
         std::string lastName_;
         std::string email_;
@@ -48,10 +51,15 @@ struct Graph {
     public:
         Graph();
         Graph(const std::vector<User*>& users);
-        void buildGraph(const std::vector<User*>& users); // Builds bipartite graph to match Users
 
-    private:
-        std::unordered_map<int, std::pair<int, std::string>> g; // Stores which User id maps to which other User id and city
+        void setUsers(const std::vector<User*>& users); // Create list of User pointers
+        void buildGraph(); // Builds bipartite graph to match Users
+
+        static int numMatching;
+
+    protected:
+        std::unordered_map<User*, std::vector<User*>> g_; // Stores which Users map to which other Users
+        std::vector<User*> users_;
 };
 
 #endif // USER_H

@@ -9,9 +9,9 @@
 
 using Graph = std::unordered_map<int, User*>;
 
-bool BFS(const Graph& g);
+static bool BFS(const Graph& g);
 
-bool DFS(const Graph& g);
+static bool DFS(const Graph& g);
 
 int bipartiteMatching(const Graph& g);
 

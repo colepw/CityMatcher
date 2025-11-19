@@ -51,6 +51,7 @@ int main() {
     file.close();
 
     
+    if (!users.empty()) users[0]->destroyUserGraph();
 
     for (User* p : users) delete p;
 

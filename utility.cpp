@@ -8,11 +8,11 @@
 
 using Graph = std::unordered_map<int, User*>;
 
-static bool BFS(const Graph& g) {
+bool BFS(const Graph& g) {
 
 }
 
-static bool DFS(const Graph& g) {
+bool DFS(const Graph& g) {
 
 }
 

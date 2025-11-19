@@ -4,14 +4,18 @@
 #include <unordered_set>
 #include <unordered_map>
 
+// USER START
+
+Graph* User::userGraph = nullptr;
+
 int User::totalDesiredCities = 0;
 
-User::User() {}
+User::User() : desiredCities_({}), firstName_(""), lastName_(""), email_(""), homeCity_(""), id_(-1), matchedCity_({nullptr, ""}) {}
 
 User::User(const std::unordered_set<std::string>& desiredCities, const std::string& firstName, const std::string& lastName, const std::string& email, const std::string& homeCity, const int& id)
-    : desiredCities_(desiredCities), firstName_(firstName), lastName_(lastName), email_(email), homeCity_(homeCity), id_(id) {}
+    : desiredCities_(desiredCities), firstName_(firstName), lastName_(lastName), email_(email), homeCity_(homeCity), id_(id), matchedCity_({nullptr, ""}) {}
 
-std::unordered_set<std::string> User::getDesiredCities() const {
+const std::unordered_set<std::string>& User::getDesiredCities() const {
     return this->desiredCities_;
 }
 
@@ -60,3 +64,54 @@ void User::setHomeCity(const std::string& city) {
 void User::setId(const int& id) {
     this->id_ = id;
 }
+
+void User::buildUserGraph(const std::vector<User*>& users) {
+    delete userGraph;
+    userGraph = new Graph(users);
+}
+
+void User::destroyUserGraph() {
+    if (userGraph != nullptr) {
+        delete userGraph;
+        userGraph = nullptr;
+    }
+}
+
+std::pair<User*, std::string> User::getUserMatch() const {
+    return this->matchedCity_;
+}
+
+unsigned char User::isMatched() const {
+    return (this->matchedCity_.first != nullptr && this->matchedCity_.second != "");
+}
+
+// END USER
+
+// GRAPH START
+
+int Graph::numMatching = 0;
+
+Graph::Graph() : g_({}), users_({}) {}
+
+Graph::Graph(const std::vector<User*>& users) {
+    this->setUsers(users);
+    this->buildGraph();
+}
+
+void Graph::setUsers(const std::vector<User*>& users) {
+    this->users_ = users;
+}
+
+void Graph::buildGraph() {
+    for (std::size_t i = 0; i < this->users_.size(); ++i) {
+        std::unordered_set<std::string> desiredCities = this->users_[i]->getDesiredCities();
+        for (User* user : this->users_) {
+            if (user == this->users_[i]) continue;
+            if (desiredCities.find(user->getHomeCity()) != desiredCities.end()) {
+                this->g_[this->users_[i]].push_back(user);
+            }
+        }
+    }
+}
+
+// END GRAPH
