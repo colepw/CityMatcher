@@ -50,8 +50,9 @@ int main() {
 
     file.close();
 
+    User::buildUserGraph(users);
     
-    if (!users.empty()) users[0]->destroyUserGraph();
+    if (!users.empty()) User::destroyUserGraph();
 
     for (User* p : users) delete p;
 

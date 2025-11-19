@@ -1,6 +1,8 @@
 #include "User.h"
+#include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 #include <unordered_set>
 #include <unordered_map>
 
@@ -66,7 +68,7 @@ void User::setId(const int& id) {
 }
 
 void User::buildUserGraph(const std::vector<User*>& users) {
-    delete userGraph;
+    if (userGraph != nullptr) delete userGraph;
     userGraph = new Graph(users);
 }
 
@@ -89,17 +91,20 @@ unsigned char User::isMatched() const {
 
 // GRAPH START
 
-int Graph::numMatching = 0;
+Graph::Graph() : g_({}), from_({}), to_({}), dist_({}), users_({}), maxMatching_(0) {}
 
-Graph::Graph() : g_({}), users_({}) {}
-
-Graph::Graph(const std::vector<User*>& users) {
+Graph::Graph(const std::vector<User*>& users) : maxMatching_(0) {
     this->setUsers(users);
     this->buildGraph();
 }
 
 void Graph::setUsers(const std::vector<User*>& users) {
     this->users_ = users;
+    for (User* user : this->users_) {
+        this->from_[user] = nullptr;
+        this->to_[user] = nullptr;
+        this->dist_[user] = -1;
+    }
 }
 
 void Graph::buildGraph() {
@@ -112,6 +117,58 @@ void Graph::buildGraph() {
             }
         }
     }
+    this->maxMatching();
+}
+
+bool Graph::BFS() {
+    std::queue<User*> q;
+    for (User* u : this->users_) {
+        if (this->from_[u] == nullptr) {
+            this->dist_[u] = 0;
+            q.push(u);
+        } else {
+            this->dist_[u] = -1;
+        }
+    }
+
+    bool found = false;
+    while (!q.empty()) {
+        User* u = q.front();
+        q.pop();
+        for (User* v : this->g_[u]) {
+            User* w = this->to_[v];
+            if (w == nullptr) {
+                found = true;
+            } else if (this->dist_[w] == -1) {
+                this->dist_[w] = this->dist_[u] + 1;
+                q.push(w);
+            }
+        }
+    }
+
+    return found;
+}
+
+bool Graph::DFS(User* u) {
+    for (User* v : this->g_[u]) {
+        User* w = this->to_[v];
+        if (w == nullptr || (this->dist_[w] == this->dist_[u] + 1 && this->DFS(w))) {
+            this->from_[u] = v;
+            this->to_[v] = u;
+        }
+    }
+}
+
+void Graph::maxMatching() {
+    int matching = 0;
+    while (this->BFS()) {
+        for (User* user : this->users_) {
+            if (this->from_[user] == nullptr && this->DFS(user)) ++matching;
+        }
+    }
+    std::cout << matching << "/" << this->users_.size() << " Users Matched...\n";
+
+    this->maxMatching_ = matching;
 }
 
 // END GRAPH

@@ -55,11 +55,17 @@ struct Graph {
         void setUsers(const std::vector<User*>& users); // Create list of User pointers
         void buildGraph(); // Builds bipartite graph to match Users
 
-        static int numMatching;
+        bool BFS();
+        bool DFS(User* u);
+        void maxMatching();
 
     protected:
         std::unordered_map<User*, std::vector<User*>> g_; // Stores which Users map to which other Users
+        std::unordered_map<User*, User*> from_;
+        std::unordered_map<User*, User*> to_;
+        std::unordered_map<User*, int> dist_;
         std::vector<User*> users_;
+        int maxMatching_;
 };
 
 #endif // USER_H
