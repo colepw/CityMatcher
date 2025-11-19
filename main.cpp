@@ -45,9 +45,8 @@ int main() {
                 user->addCity(city);
                 ++(user->totalDesiredCities);
             }
-
-            users.push_back(user);
         }
+        users.push_back(user);
     }
 
     file.close();
