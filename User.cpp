@@ -71,7 +71,7 @@ void User::displayUserInfo() const {
             info += ('\n' + sep);
         }
     }
-    info += ("\nMatched to reside with " + this->matchedCity_.first->getName() + "'s residence in " + this->matchedCity_.second + '\n' + sep);
+    info += ("\nMatched to reside in " + this->matchedCity_.first->getName() + "'s " + this->matchedCity_.second + " residence\n" + sep);
     info += ("\nAllowing " + this->reverse_->getName() + " to reside in their " + this->getHomeCity() + " residence\n" + sep + '\n');
 
     std::cout << info;
