@@ -12,10 +12,10 @@ Graph* User::userGraph = nullptr;
 
 int User::totalDesiredCities = 0;
 
-User::User() : desiredCities_({}), firstName_(""), lastName_(""), email_(""), homeCity_(""), id_(-1), matchedCity_({nullptr, ""}) {}
+User::User() : desiredCities_({}), matchedCity_({nullptr, ""}), firstName_(""), lastName_(""), email_(""), homeCity_(""), id_(-1) {}
 
 User::User(const std::unordered_set<std::string>& desiredCities, const std::string& firstName, const std::string& lastName, const std::string& email, const std::string& homeCity, const int& id)
-    : desiredCities_(desiredCities), firstName_(firstName), lastName_(lastName), email_(email), homeCity_(homeCity), id_(id), matchedCity_({nullptr, ""}) {}
+    : desiredCities_(desiredCities), matchedCity_({nullptr, ""}), firstName_(firstName), lastName_(lastName), email_(email), homeCity_(homeCity), id_(id) {}
 
 const std::unordered_set<std::string>& User::getDesiredCities() const {
     return this->desiredCities_;
@@ -157,6 +157,9 @@ bool Graph::DFS(User* u) {
             this->to_[v] = u;
         }
     }
+    dist_[u] = -1;
+
+    return false;
 }
 
 void Graph::maxMatching() {
