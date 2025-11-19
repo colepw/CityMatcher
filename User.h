@@ -15,6 +15,8 @@ class User {
         User(const std::unordered_set<std::string>& desiredCities, const std::string& firstName, const std::string& lastName, const std::string& email, const std::string& homeCity, const int& id);
 
         const std::unordered_set<std::string>& getDesiredCities() const;
+        std::pair<User*, std::string> getUserMatch() const; // Returns pair of pointer to User object and the city of the matched User
+        User* getReverse() const;
         std::string getFirstName() const;
         std::string getLastName() const;
         std::string getName() const;
@@ -23,12 +25,13 @@ class User {
         int getId() const;
 
         void addCity(const std::string& city);
+        void setReverse(User* userPtr);
+        void setMatch(const std::pair<User*, std::string>& p);
         void setName(const std::string& first, const std::string& last);
         void setEmail(const std::string& email);
         void setHomeCity(const std::string& city);
         void setId(const int& id);
-
-        std::pair<User*, std::string> getUserMatch() const; // Returns pair of pointer to User object and the city of the matched User
+        
         unsigned char isMatched() const; // Returns whether of not the User has been matched
 
         static void buildUserGraph(const std::vector<User*>& users);
@@ -40,6 +43,7 @@ class User {
     protected:
         std::unordered_set<std::string> desiredCities_;
         std::pair<User*, std::string> matchedCity_;
+        User* reverse_;
         std::string firstName_;
         std::string lastName_;
         std::string email_;

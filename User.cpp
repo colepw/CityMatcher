@@ -12,13 +12,17 @@ Graph* User::userGraph = nullptr;
 
 int User::totalDesiredCities = 0;
 
-User::User() : desiredCities_({}), matchedCity_({nullptr, ""}), firstName_(""), lastName_(""), email_(""), homeCity_(""), id_(-1) {}
+User::User() : desiredCities_({}), matchedCity_({nullptr, ""}), reverse_(nullptr), firstName_(""), lastName_(""), email_(""), homeCity_(""), id_(-1) {}
 
 User::User(const std::unordered_set<std::string>& desiredCities, const std::string& firstName, const std::string& lastName, const std::string& email, const std::string& homeCity, const int& id)
-    : desiredCities_(desiredCities), matchedCity_({nullptr, ""}), firstName_(firstName), lastName_(lastName), email_(email), homeCity_(homeCity), id_(id) {}
+    : desiredCities_(desiredCities), matchedCity_({nullptr, ""}), reverse_(nullptr), firstName_(firstName), lastName_(lastName), email_(email), homeCity_(homeCity), id_(id) {}
 
 const std::unordered_set<std::string>& User::getDesiredCities() const {
     return this->desiredCities_;
+}
+
+User* User::getReverse() const {
+    return this->reverse_;
 }
 
 std::string User::getFirstName() const {
@@ -48,6 +52,14 @@ int User::getId() const {
 
 void User::addCity(const std::string& city) {
     this->desiredCities_.insert(city);
+}
+
+void User::setReverse(User* userPtr) {
+    this->reverse_ = userPtr;
+}
+
+void User::setMatch(const std::pair<User*, std::string>& p) {
+    this->matchedCity_ = p;
 }
 
 void User::setName(const std::string& first, const std::string& last) {
@@ -109,7 +121,7 @@ void Graph::setUsers(const std::vector<User*>& users) {
 
 void Graph::buildGraph() {
     for (std::size_t i = 0; i < this->users_.size(); ++i) {
-        std::unordered_set<std::string> desiredCities = this->users_[i]->getDesiredCities();
+        const std::unordered_set<std::string>& desiredCities = this->users_[i]->getDesiredCities();
         for (User* user : this->users_) {
             if (user == this->users_[i]) continue;
             if (desiredCities.find(user->getHomeCity()) != desiredCities.end()) {
@@ -155,9 +167,12 @@ bool Graph::DFS(User* u) {
         if (w == nullptr || (this->dist_[w] == this->dist_[u] + 1 && this->DFS(w))) {
             this->from_[u] = v;
             this->to_[v] = u;
+            u->setMatch({v, v->getHomeCity()});
+            v->setReverse(u);
+            return true;
         }
     }
-    dist_[u] = -1;
+    this->dist_[u] = -1;
 
     return false;
 }
