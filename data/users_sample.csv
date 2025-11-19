@@ -1,4 +1,5 @@
 # desiredCities,firstName,lastName,email,homeCity,id
+Boston;Miami;Denver,Damian,Roberts,damian.roberts@example.com,Phoenix,0
 Los Angeles;Chicago;Houston,Alice,Smith,alice.smith@example.com,New York,1
 Chicago;Houston;Phoenix,Bob,Johnson,bob.johnson@example.com,Los Angeles,2
 Houston;Phoenix;San Diego,Carol,Williams,carol.williams@example.com,Chicago,3
@@ -48,4 +49,3 @@ Phoenix;San Diego;San Francisco,Vera,Rivera,vera.rivera@example.com,New York,46
 San Diego;San Francisco;Seattle,Walter,Campbell,walter.campbell@example.com,Los Angeles,47
 San Francisco;Seattle;Boston,Zoe,Mitchell,zoe.mitchell@example.com,Chicago,48
 Seattle;Boston;Miami,Chloe,Carter,chloe.carter@example.com,Houston,49
-Boston;Miami;Denver,Damian,Roberts,damian.roberts@example.com,Phoenix,50

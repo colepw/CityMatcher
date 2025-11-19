@@ -42,7 +42,7 @@ int main() {
         std::stringstream cs(desiredCities);
         std::string city;
         while (std::getline(cs, city, ';')) {
-            if (!desiredCities.empty()) user->addCity(city);
+            if (!desiredCities.empty()) { user->addCity(city); ++(user->totalDesiredCities);
         }
 
         users.push_back(user);

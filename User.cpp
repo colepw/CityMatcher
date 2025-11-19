@@ -1,6 +1,10 @@
 #include "User.h"
 #include <string>
+#include <vector>
 #include <unordered_set>
+#include <unordered_map>
+
+int User::totalDesiredCities = 0;
 
 User::User() {}
 
