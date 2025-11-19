@@ -24,6 +24,8 @@ class User {
         std::string getHomeCity() const;
         int getId() const;
 
+        void displayUserInfo() const;
+
         void addCity(const std::string& city);
         void setReverse(User* userPtr);
         void setMatch(const std::pair<User*, std::string>& p);

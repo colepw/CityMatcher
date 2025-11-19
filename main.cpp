@@ -52,6 +52,13 @@ int main() {
     file.close();
 
     User::buildUserGraph(users);
+
+    for (User* user : users) {
+        if (user->isMatched()) {
+            user->displayUserInfo();
+            break;
+        }
+    }
     
     if (!users.empty()) User::destroyUserGraph();
 

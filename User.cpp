@@ -50,6 +50,33 @@ int User::getId() const {
     return this->id_;
 }
 
+void User::displayUserInfo() const {
+    const char c = '-';
+    std::string sep = "";
+    for (std::size_t i = 0; i < 100; ++i) {
+        sep += c;
+    }
+    
+    std::string info = '\n' + sep + "\nUser ID: " + std::to_string(this->id_) + '\n' + sep;
+    info += ("\nName: " + this->getName() + '\n' + sep);
+    info += ("\nEmail: " + this->getEmail() + '\n' + sep);
+    info += ("\nHome City: " + this->getHomeCity() + '\n' + sep);
+    info += "\nDesired Cities: ";
+    for (auto it = this->desiredCities_.begin(); it != this->desiredCities_.end(); ++it) {
+        auto next_it = std::next(it);
+        info += *it;
+        if (next_it != this->desiredCities_.end()) {
+            info += ", ";
+        } else {
+            info += ('\n' + sep);
+        }
+    }
+    info += ("\nMatched to reside with " + this->matchedCity_.first->getName() + "'s residence in " + this->matchedCity_.second + '\n' + sep);
+    info += ("\nAllowing " + this->reverse_->getName() + " to reside in their " + this->getHomeCity() + " residence\n" + sep + '\n');
+
+    std::cout << info;
+}
+
 void User::addCity(const std::string& city) {
     this->desiredCities_.insert(city);
 }
@@ -184,7 +211,7 @@ void Graph::maxMatching() {
             if (this->from_[user] == nullptr && this->DFS(user)) ++matching;
         }
     }
-    std::cout << matching << "/" << this->users_.size() << " Users Matched...\n";
+    std::cout << '\n' << matching << "/" << this->users_.size() << " Users Matched...\n";
 
     this->maxMatching_ = matching;
 }
